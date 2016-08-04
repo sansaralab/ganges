@@ -14,5 +14,5 @@ else()
     message(STATUS "The compiler ${CMAKE_C_COMPILER} has no C11/C1x support, which is required.")
 endif()
 
-set(SOURCE_FILES src/main.c)
+set(SOURCE_FILES src/main.c src/queue/queue.c src/queue/queue.h)
 add_executable(ganges ${SOURCE_FILES})
