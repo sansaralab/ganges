@@ -3,19 +3,19 @@
 #include "queue.h"
 
 
-gg_queue* gg_queue_new()
+gg_queue *gg_queue_new()
 {
-    gg_queue* queue = malloc(sizeof(gg_queue));
+    gg_queue *queue = malloc(sizeof(gg_queue));
     return queue;
 }
 
-bool gg_queue_push(gg_queue* queue, char* data)
+bool gg_queue_push(gg_queue *queue, char *data)
 {
     if (queue == NULL) {
         return false;
     }
 
-    gg_queue_item* newItem = malloc(sizeof(gg_queue_item));
+    gg_queue_item *newItem = malloc(sizeof(gg_queue_item));
     newItem->data = data;
 
     if (queue->last == NULL) {
@@ -29,15 +29,15 @@ bool gg_queue_push(gg_queue* queue, char* data)
     return true;
 }
 
-char* gg_queue_pop(gg_queue* queue)
+char *gg_queue_pop(gg_queue *queue)
 {
     if (queue->first == NULL) {
         return NULL;
     }
 
-    char* result = malloc(sizeof(queue->first->data));
+    char *result = malloc(sizeof(queue->first->data));
     strcpy(result, queue->first->data);
-    gg_queue_item* newFirst;
+    gg_queue_item *newFirst;
 
     if (queue->first->next) {
         newFirst = queue->first->next;
@@ -55,13 +55,13 @@ char* gg_queue_pop(gg_queue* queue)
     return result;
 }
 
-bool gg_queue_free(gg_queue* queue)
+bool gg_queue_free(gg_queue *queue)
 {
     if (queue->first == NULL) {
         return true;
     }
 
-    gg_queue_item* temp = queue->first;
+    gg_queue_item *temp = queue->first;
 
     while (temp->next) {
         temp = queue->first->next;
