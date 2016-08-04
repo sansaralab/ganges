@@ -11,6 +11,10 @@ gg_queue* gg_queue_new()
 
 bool gg_queue_push(gg_queue* queue, char* data)
 {
+    if (queue == NULL) {
+        return false;
+    }
+
     gg_queue_item* newItem = malloc(sizeof(gg_queue_item));
     newItem->data = data;
 
@@ -27,11 +31,26 @@ bool gg_queue_push(gg_queue* queue, char* data)
 
 char* gg_queue_pop(gg_queue* queue)
 {
+    if (queue->first == NULL) {
+        return NULL;
+    }
+
     char* result = malloc(sizeof(queue->first->data));
     strcpy(result, queue->first->data);
-    gg_queue_item* newFirst = queue->first->next;
+    gg_queue_item* newFirst;
+
+    if (queue->first->next) {
+        newFirst = queue->first->next;
+    } else {
+        newFirst = NULL;
+    }
+
     free(queue->first);
     queue->first = newFirst;
+
+    if (newFirst == NULL) {
+        queue->last = NULL;
+    }
 
     return result;
 }
