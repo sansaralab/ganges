@@ -31,7 +31,7 @@ bool gg_queue_push(gg_queue *queue, char *data)
 
 char *gg_queue_pop(gg_queue *queue)
 {
-    if (queue->first == NULL) {
+    if (queue == NULL || queue->first == NULL) {
         return NULL;
     }
 
@@ -57,7 +57,7 @@ char *gg_queue_pop(gg_queue *queue)
 
 bool gg_queue_free(gg_queue *queue)
 {
-    if (queue->first == NULL) {
+    if (queue == NULL || queue->first == NULL) {
         return true;
     }
 
