@@ -55,7 +55,7 @@ struct hostent {
  * error - wrapper for perror
  */
 void error(char *msg) {
-    perror(msg);
+    puts(msg);
     exit(1);
 }
 
@@ -66,7 +66,7 @@ void localError(char *msg) {
 int run_server(int portno) {
     int parentfd; /* parent socket */
     int childfd; /* child socket */
-    int clientlen; /* byte size of client's address */
+    socklen_t clientlen; /* byte size of client's address */
     struct sockaddr_in serveraddr; /* server's addr */
     struct sockaddr_in clientaddr; /* client addr */
     struct hostent *hostp; /* client host info */
@@ -74,6 +74,8 @@ int run_server(int portno) {
     char *hostaddrp; /* dotted decimal host addr string */
     int optval; /* flag value for setsockopt */
     int n; /* message byte size */
+
+    puts("starting up server...");
 
 //    gg_queue *queue = gg_queue_new();
 
@@ -128,6 +130,8 @@ int run_server(int portno) {
      */
     clientlen = sizeof(clientaddr);
 
+    puts("start accepting connections at port...");
+
     while (1) {
 
         /*
@@ -135,7 +139,7 @@ int run_server(int portno) {
          */
         childfd = accept(parentfd, (struct sockaddr *) &clientaddr, &clientlen);
         if (childfd < 0) {
-            puts("ERROR on accept");
+            localError("ERROR on accept");
             continue;
         }
 

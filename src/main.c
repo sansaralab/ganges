@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     int portno; /* port to listen on */
 
     if (argc != 2) {
-        fprintf(stderr, "usage: %s <port>\n", argv[0]);
+        printf("usage: %s <port>\n", argv[0]);
         exit(1);
     }
 
