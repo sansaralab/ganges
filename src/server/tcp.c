@@ -1,21 +1,12 @@
-#include "tcp.h"
-
-/*
- * tcpserver.c - A simple TCP echo server
- * usage: tcpserver <port>
- */
-
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
 #include <netdb.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
 #include <arpa/inet.h>
 #include <strings.h>
 #include "../queue/queue.h"
+#include "tcp.h"
 
 #define BUFSIZE 1024
 
