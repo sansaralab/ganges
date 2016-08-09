@@ -101,7 +101,7 @@ void do_accept(evutil_socket_t listener, short event, void *arg)
     }
 }
 
-void run(int port)
+void run(uint16_t port)
 {
     setvbuf(stdout, NULL, _IONBF, 0);
 

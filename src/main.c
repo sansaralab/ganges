@@ -5,14 +5,14 @@
 
 int main(int argc, char *argv[])
 {
-    int portno; // port to listen on
+    uint16_t portno; // port to listen on
 
     if (argc != 2) {
         printf("usage: %s <port>\n", argv[0]);
         exit(1);
     }
 
-    portno = atoi(argv[1]);
+    portno = (uint16_t) atoi(argv[1]);
 
     printf("Starting server at %d port...\n", portno);
     run(portno);
