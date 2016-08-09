@@ -1,12 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "server/tcp.h"
-#include "queue/queue.h"
+#include "server/async.h"
 
 
 int main(int argc, char *argv[])
 {
-    int portno; /* port to listen on */
+    int portno; // port to listen on
 
     if (argc != 2) {
         printf("usage: %s <port>\n", argv[0]);
@@ -15,7 +14,8 @@ int main(int argc, char *argv[])
 
     portno = atoi(argv[1]);
 
-    run_server(portno);
+    printf("Starting server at %d port...\n", portno);
+    run(portno);
 
 //    gg_queue *queue = gg_queue_new();
 //    gg_queue_push(queue, "ololo1111!");
@@ -28,8 +28,6 @@ int main(int argc, char *argv[])
 //    gg_queue_push(queue, "ololo4444!");
 //    gg_queue_push(queue, "ololo5555!");
 //    gg_queue_free(queue);
-
-    puts("Hello!");
 
     return 0;
 }
