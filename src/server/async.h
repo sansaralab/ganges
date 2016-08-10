@@ -9,4 +9,4 @@ typedef struct Command
     char* data;
 } Command;
 
-void run(int port);
+void run(uint16_t port);

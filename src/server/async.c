@@ -14,6 +14,7 @@
 #include <errno.h>
 
 #include "../queue/queue.h"
+#include "async.h"
 
 #define MAX_LINE 16384
 
@@ -22,16 +23,19 @@ gg_queue *queue;
 void do_read(evutil_socket_t fd, short events, void *arg);
 void do_write(evutil_socket_t fd, short events, void *arg);
 
-char rot13_char(char c)
+
+char *dispatch_command(char command, char *data, size_t length)
 {
-    /* We don't want to use isalpha here; setting the locale would change
-     * which characters are considered alphabetical. */
-    if ((c >= 'a' && c <= 'm') || (c >= 'A' && c <= 'M'))
-        return c + 13;
-    else if ((c >= 'n' && c <= 'z') || (c >= 'N' && c <= 'Z'))
-        return c - 13;
-    else
-        return c;
+    if (command == '1')
+    {
+        gg_queue_push(queue, (char *)data);
+    }
+    else if (command == '2')
+    {
+        return gg_queue_pop(queue);
+    }
+
+    return "";
 }
 
 void readcb(struct bufferevent *bev, void *ctx)
@@ -39,31 +43,28 @@ void readcb(struct bufferevent *bev, void *ctx)
     struct evbuffer *input, *output;
     char *line;
     size_t n;
-    int i;
     input = bufferevent_get_input(bev);
     output = bufferevent_get_output(bev);
 
     while ((line = evbuffer_readln(input, &n, EVBUFFER_EOL_LF))) {
-        printf("Res = %s\n", line);
-        for (i = 0; i < n; ++i)
-            line[i] = rot13_char(line[i]);
-        evbuffer_add(output, line, n);
+        if (strlen(line) > 0) {
+            char command = line[0];
+            char *data = &line[1];
+            const size_t length = strlen(data);
+            printf("Command = %c\n", command);
+            printf("Len = %lu\n", length);
+            printf("Res = %s\n", data);
+
+            char *result = dispatch_command(command, data, length);
+            evbuffer_add(output, result, strlen(result));
+        } else {
+            puts("Some error");
+        }
+
         evbuffer_add(output, "\n", 1);
         free(line);
     }
 
-    if (evbuffer_get_length(input) >= MAX_LINE) {
-        /* Too long; just process what there is and go on so that the buffer
-         * doesn't grow infinitely long. */
-        char buf[1024];
-        while (evbuffer_get_length(input)) {
-            int n = evbuffer_remove(input, buf, sizeof(buf));
-            for (i = 0; i < n; ++i)
-                buf[i] = rot13_char(buf[i]);
-            evbuffer_add(output, buf, n);
-        }
-        evbuffer_add(output, "\n", 1);
-    }
 }
 
 void errorcb(struct bufferevent *bev, short error, void *ctx)
