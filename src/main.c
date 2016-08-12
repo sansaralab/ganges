@@ -5,7 +5,7 @@
 
 int main(int argc, char *argv[])
 {
-    uint16_t portno; // port to listen on
+    uint16_t portno;
 
     if (argc != 2) {
         printf("usage: %s <port>\n", argv[0]);
@@ -16,18 +16,6 @@ int main(int argc, char *argv[])
 
     printf("Starting server at %d port...\n", portno);
     run(portno);
-
-//    gg_queue *queue = gg_queue_new();
-//    gg_queue_push(queue, "ololo1111!");
-//    gg_queue_push(queue, "ololo2222!");
-//    gg_queue_push(queue, "ololo3333!");
-//    gg_queue_pop(queue);
-//    gg_queue_pop(queue);
-//    gg_queue_pop(queue);
-//    gg_queue_pop(queue);
-//    gg_queue_push(queue, "ololo4444!");
-//    gg_queue_push(queue, "ololo5555!");
-//    gg_queue_free(queue);
 
     return 0;
 }
